@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// rotta home_public fatta con HomeController
+Route::get('/', 'HomeController@index');
+// rotta per lo show tramite slug fatta con PostController
+Route::get('/post/{slug}', 'PostController@show')->name('posts.show');
 
 Auth::routes();
 

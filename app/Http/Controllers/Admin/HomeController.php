@@ -10,6 +10,7 @@ class HomeController extends Controller
 
     public function index()
     {
+        //home_login nome del file in view
         return view('admin.home_login');
     }
 }
