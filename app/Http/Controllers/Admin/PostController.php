@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -14,7 +16,12 @@ class PostController extends Controller
      */
     public function index()
     {
-      return 'pagina index dei post area riservata'
+      //questa è pagina index dei post nell'area riservata
+      $posts = Post::all();
+      $data = [
+        'posts'=> $posts
+      ];
+      return view('admin.posts.index', $data);
     }
 
     /**
@@ -44,9 +51,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug) //non metto id ma slug
     {
-        //
+      //utlizzo where e non find perche find va con id
+      $post =Post::where('slug', $slug)->first();
+      if (empty($post)) {
+        abort(404);
+      }
+      return view('admin.posts.show', compact('post'));
     }
 
     /**
