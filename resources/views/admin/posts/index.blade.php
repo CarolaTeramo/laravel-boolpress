@@ -3,7 +3,7 @@
 @section('content')
   <div class="container mt-5">
     <h1>Pagina index dentro area riservata</h1>
-    {{-- <a href="{{ route('movies.create') }}" class="btn btn-success">Aggiungi un nuovo post</a> --}}
+    <a href="{{ route('admin.posts.create') }}" class="btn btn-success">Aggiungi un nuovo post</a>
     <table class="table mt-3">
   <thead>
     <tr>
@@ -35,19 +35,18 @@
                 (-)
             @endif
 
-
           {{-- se voglio fare un controllo inserisco if ternario
           {{ $movie->category ? $post->category->name : 'non presente'}} --}}
         </td>
-        {{-- <td><a href="{{ route('products.show', $product->id) }}" class="btn btn-primary">Visualizza</a></td>
-        <td><a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Modifica</a></td>
+        <td><a href="{{ route('admin.posts.show', $post->slug) }}" class="btn btn-primary">Visualizza</a></td>
+        <td><a href="{{ route('admin.posts.edit', $post->slug) }}" class="btn btn-warning">Modifica</a></td>
         <td>
-          <form class="" action="{{ route('products.destroy', $product->id) }}" method="post">
+          <form class="" action="{{ route('admin.posts.destroy', $post->slug) }}" method="post">
             @method ('DELETE')
             @csrf
             <input class="btn btn-danger" type="submit" name="" value="Elimina">
           </form>
-        </td> --}}
+        </td>
       </tr>
 
     @empty

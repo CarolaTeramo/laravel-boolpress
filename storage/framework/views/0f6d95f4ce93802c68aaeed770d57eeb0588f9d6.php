@@ -1,19 +1,48 @@
 <?php $__env->startSection('content'); ?>
-  <h1>Pagina home area pubblica</h1>
-  <ul>
+  <div class="container mt-5">
+    <h1>Pagina pubblica</h1>
+    <table class="table mt-3">
+  <thead>
+    <tr>
+      <th >Id</th>
+      <th >Titolo</th>
+      <th >Autore</th>
+      <th >Slug</th>
+      <th >Creato il</th>
+      <th >Categoria</th>
+    </tr>
+  </thead>
+  <tbody>
     <?php $__empty_1 = true; $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-      
-      <li><a href="<?php echo e(route('posts.show_public',$post->slug)); ?>"><?php echo e($post->title); ?></a> scritto da <?php echo e($post->author); ?> del <?php echo e($post->created_at); ?></li>
-      <?php if(!empty($post->category)): ?>
-        <li><a href="<?php echo e(route('posts.posts_of_x_category', $post->category->slug)); ?>"><?php echo e($post->category->name); ?></a></li>
-        <?php else: ?>
-          (null)
-      <?php endif; ?>
+      <tr>
+        <td><?php echo e($post->id); ?></td>
+        <td><a href="<?php echo e(route('posts.show_public', $post->slug)); ?>"><?php echo e($post->title); ?></a></td>
+        <td><?php echo e($post->author); ?></td>
+        <td><?php echo e($post->slug); ?></td>
+        <td><?php echo e($post->created_at); ?></td>
+        <td>
+          
+            
+
+            <?php if(!empty($post->category)): ?>
+              <a href="<?php echo e(route('posts.posts_of_x_category', $post->category->slug)); ?>"><?php echo e($post->category->name); ?></a>
+              <?php else: ?>
+                (-)
+            <?php endif; ?>
+
+          
+        </td>
+
+      </tr>
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-      <p>Non sono presenti post</p>
+      <p>Non ci sono post</p>
     <?php endif; ?>
-  </ul>
+
+  </tbody>
+</table>
+
+  </div>
 
 <?php $__env->stopSection(); ?>
 

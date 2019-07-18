@@ -1,21 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-  <h1>Pagina home area pubblica</h1>
-  <ul>
+  <div class="container mt-5">
+    <h1>Pagina pubblica</h1>
+    <table class="table mt-3">
+  <thead>
+    <tr>
+      <th >Id</th>
+      <th >Titolo</th>
+      <th >Autore</th>
+      <th >Slug</th>
+      <th >Creato il</th>
+      <th >Categoria</th>
+    </tr>
+  </thead>
+  <tbody>
     @forelse ($posts as $post)
-      {{-- il nome della route per la show è in web.php
-      qui oltre la route non passo l'id ma lo slug --}}
-      <li><a href="{{ route('posts.show_public',$post->slug) }}">{{ $post->title }}</a> scritto da {{ $post->author }} del {{ $post->created_at }}</li>
-      @if (!empty($post->category))
-        <li><a href="{{ route('posts.posts_of_x_category', $post->category->slug)}}">{{$post->category->name}}</a></li>
-        @else
-          (null)
-      @endif
+      <tr>
+        <td>{{ $post->id}}</td>
+        <td><a href="{{ route('posts.show_public', $post->slug)}}">{{ $post->title}}</a></td>
+        <td>{{ $post->author}}</td>
+        <td>{{ $post->slug}}</td>
+        <td>{{ $post->created_at}}</td>
+        <td>
+          {{-- qui non posso scrivere {{ $post->category_id}}
+          ma dovrò passare alla seconda tabella  oggetto category associato a post--}}
+            {{-- se non inserisco if mi da come errrore
+            Trying to get property 'name' of non-object perchè non ho inserito numero valori = numero righe --}}
+
+            @if (!empty($post->category))
+              <a href="{{ route('posts.posts_of_x_category', $post->category->slug)}}">{{$post->category->name}}</a>
+              @else
+                (-)
+            @endif
+
+          {{-- se voglio fare un controllo inserisco if ternario
+          {{ $movie->category ? $post->category->name : 'non presente'}} --}}
+        </td>
+
+      </tr>
 
     @empty
-      <p>Non sono presenti post</p>
+      <p>Non ci sono post</p>
     @endforelse
-  </ul>
+
+  </tbody>
+</table>
+
+  </div>
 
 @endsection

@@ -31,6 +31,7 @@ class PostController extends Controller
     if (empty($category)) {
       abort(404);
     }
+    //post associato a quella categoria
     $posts = $category->posts;
     $data = [
       'posts'=> $posts,

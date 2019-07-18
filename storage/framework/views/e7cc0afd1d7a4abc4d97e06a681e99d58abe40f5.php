@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
   <div class="container mt-5">
     <h1>Pagina index dentro area riservata</h1>
-    
+    <a href="<?php echo e(route('admin.posts.create')); ?>" class="btn btn-success">Aggiungi un nuovo post</a>
     <table class="table mt-3">
   <thead>
     <tr>
@@ -31,10 +31,17 @@
                 (-)
             <?php endif; ?>
 
-
           
         </td>
-        
+        <td><a href="<?php echo e(route('admin.posts.show', $post->slug)); ?>" class="btn btn-primary">Visualizza</a></td>
+        <td><a href="<?php echo e(route('admin.posts.edit', $post->slug)); ?>" class="btn btn-warning">Modifica</a></td>
+        <td>
+          <form class="" action="<?php echo e(route('admin.posts.destroy', $post->slug)); ?>" method="post">
+            <?php echo method_field('DELETE'); ?>
+            <?php echo csrf_field(); ?>
+            <input class="btn btn-danger" type="submit" name="" value="Elimina">
+          </form>
+        </td>
       </tr>
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

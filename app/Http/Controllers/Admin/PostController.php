@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Category;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -31,7 +32,16 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      //qui non posso fare solo return view('admin.posts.create'); ma
+      //nel file create.blade devo ciclare sulla colonna category_id
+      //che è presente nella tabella categories quindi
+      // creo nuovo model Category e mi ricordo di inserire
+      //use App\Category;
+      $categories = Category::all();
+      $data =[
+        'categories'=> $categories
+      ];
+      return view('admin.posts.create', $data);
     }
 
     /**
@@ -42,7 +52,32 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validatedData = $request->validate([
+        'title' => 'required|unique:posts|max:255',
+        'content' => 'required',
+        'content' => 'required',
+      ]);
+
+      //prendo dati dal form
+      $dati = $request->all();
+      //ora creo lo slug a partire dal titolo
+      //recupero la chiave title dallo slug
+      $dati['slug'] = Str::slug($dati['title']);
+      //dd($dati);
+      //creo nuovo oggetto
+      $nuovo_post = new Post();
+      //oppure
+      //$nuovo_prodotto->name = $dati['name'];
+      //etc.. con tutti
+      //compila l'ggeto con questi dati
+      $nuovo_post->fill($dati);
+      $nuovo_post->save();
+
+      //se inserisco il file store.blade.php allora
+      //retur view('store');
+      //ma è meglio non inserirlo
+      return redirect()->route('admin.posts.index');
+
     }
 
     /**
@@ -67,9 +102,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+      //uguale a Show
+      //recupero id qui lo slug
+      $post =Post::where('slug', $slug)->first();
+      if (empty($post)) {
+        abort(404);
+      }
+      $categories = Category::all();
+      $data =[
+        'post'=> $post,
+        'categories'=> $categories
+      ];
+
+      return view('admin.posts.edit', $data);
     }
 
     /**
@@ -90,8 +137,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+      //recupero lo slug
+      $post = Post::where('slug', $slug)->first();
+      $post->delete();
+
+      return redirect()->route('admin.posts.index');
     }
 }
