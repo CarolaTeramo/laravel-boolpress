@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\Category;
 use Illuminate\Support\Str;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -37,11 +38,17 @@ class PostController extends Controller
       //che è presente nella tabella categories quindi
       // creo nuovo model Category e mi ricordo di inserire
       //use App\Category;
+      //lo stesso per Tag
       $categories = Category::all();
+      $tags = Tag::all();
       $data =[
-        'categories'=> $categories
+        'categories'=> $categories,
+        'tags'=> $tags
       ];
       return view('admin.posts.create', $data);
+
+
+
     }
 
     /**
@@ -63,6 +70,18 @@ class PostController extends Controller
       //ora creo lo slug a partire dal titolo
       //recupero la chiave title dallo slug
       $dati['slug'] = Str::slug($dati['title']);
+
+      //recupero anche la categoria selezionata dalla select
+      $category = Category::find($dati['category_id']);
+      //verifico se l'id della categoria ricevuto dal post
+      //corrisponda a una categoria realmente esistente
+      //controllo
+      if (empty($category)) {
+        //  se non esiste una categoria con l'id selezionato
+        // =>tolgo il category_id dai dati 'fillable'
+        //non settare...
+        unset($dati['category_id']);
+      }
       //dd($dati);
       //creo nuovo oggetto
       $nuovo_post = new Post();
@@ -72,6 +91,10 @@ class PostController extends Controller
       //compila l'ggeto con questi dati
       $nuovo_post->fill($dati);
       $nuovo_post->save();
+      //
+      $nuovo_post->tags()->sync($dati['tag']);
+      //questo tag tra parentesi quadre è quello inserito nel
+      //name dell'input della checkbox
 
       //se inserisco il file store.blade.php allora
       //retur view('store');
@@ -111,9 +134,11 @@ class PostController extends Controller
         abort(404);
       }
       $categories = Category::all();
+      $tags = Tag::all();
       $data =[
         'post'=> $post,
-        'categories'=> $categories
+        'categories'=> $categories,
+        'tags'=> $tags
       ];
 
       return view('admin.posts.edit', $data);

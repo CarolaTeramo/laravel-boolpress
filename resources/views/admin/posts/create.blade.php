@@ -47,6 +47,17 @@
         <div class="alert alert-danger">{{ $message }}</div>
       @enderror
     </div>
+    <div class="form-group">
+      <label>Tag: </label>
+      @foreach ($tags as $tag)
+        {{-- metto input dentro label così posso cliccare anche il testo e non solo
+        il quadraatino --}}
+        {{-- poichè il checkbox può accettare più di un valore
+        per passare i dati allo store devo inserire nel name un array tags[]
+        nel value avro il valore che andrà nell'array --}}
+        <label><input type="checkbox" name="tag[]" value="{{ $tag->id }}">{{ $tag->name }}</label>
+      @endforeach
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   </div>

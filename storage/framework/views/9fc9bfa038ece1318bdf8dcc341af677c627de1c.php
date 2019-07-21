@@ -61,6 +61,14 @@ $message = $errors->first('category_id'); ?>
 if (isset($messageCache)) { $message = $messageCache; }
 endif; ?>
     </div>
+    <div class="form-group">
+      <label>Tag: </label>
+      <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        
+        
+        <label><input type="checkbox" name="tag[]" value="<?php echo e($tag->id); ?>"><?php echo e($tag->name); ?></label>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   </div>

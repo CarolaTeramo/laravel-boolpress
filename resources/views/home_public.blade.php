@@ -50,7 +50,7 @@
             {{-- ciclo per prendere il nome del tag
             non scrivo $tags as $tag ma devo partire sempre da post --}}
             @foreach ($post->tags as $tag)
-              
+
               <a href="{{ route('posts.posts_of_x_tags', $tag->slug)}}">
 
                 {{$tag->name}}

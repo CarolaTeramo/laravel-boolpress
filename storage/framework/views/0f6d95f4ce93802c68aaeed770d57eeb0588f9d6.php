@@ -39,7 +39,7 @@
 
             
             <?php $__currentLoopData = $post->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-              
+
               <a href="<?php echo e(route('posts.posts_of_x_tags', $tag->slug)); ?>">
 
                 <?php echo e($tag->name); ?>
