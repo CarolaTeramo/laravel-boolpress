@@ -10,6 +10,7 @@
       <th >Slug</th>
       <th >Creato il</th>
       <th >Categoria</th>
+      <th >Tag</th>
     </tr>
   </thead>
   <tbody>
@@ -32,7 +33,28 @@
 
           
         </td>
+        <td>
+          
+          <?php if(($post->tags)->isNotEmpty()): ?>
 
+            
+            <?php $__currentLoopData = $post->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              
+              <a href="<?php echo e(route('posts.posts_of_x_tags', $tag->slug)); ?>">
+
+                <?php echo e($tag->name); ?>
+
+                
+                <?php if(!$loop->last): ?>
+                  ,
+                <?php endif; ?>
+              </a>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+          <?php else: ?>
+            (-)
+          <?php endif; ?>
+        </td>
       </tr>
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

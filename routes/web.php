@@ -21,6 +21,7 @@ Route::get('/post/{slug}', 'PostController@show')->name('posts.show_public');
 //rotta pubblica per indirizzare alla pagina che seleziona tutti i post di 1 categoria
 //categories???
 Route::get('/categories/{slug}', 'PostController@posts_of_x_category')->name('posts.posts_of_x_category');
+Route::get('/tags/{slug}', 'PostController@posts_of_x_tags')->name('posts.posts_of_x_tags');
 
 Auth::routes();
 
